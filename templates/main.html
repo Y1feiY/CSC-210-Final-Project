@@ -26,7 +26,8 @@ table{
 
 <div class="w3-sidebar w3-bar-block w3-teal w3-card" style="width:130px">
   <h5 class="w3-bar-item">Daily Diet</h5>
-  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'info')">Daily Diet Plan</button>
+  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'info')">Personal Information</button>
+  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'form')">Daily Diet Plan</button>
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'add')">Add</button>
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'del')">Delete </button>
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'update')">Update</button>
@@ -34,63 +35,111 @@ table{
 
 <div style = "margin-left:150px">
 <div id="info" class="w3-container page w3-animate-opacity" style="display:none">
+  <h3 class = "heading"> Personal Information: </h3>
+  <form METHOD="POST">
+    <input type="text" placeholder="First Name" name="f_name">
+    <input type="text" placeholder="Last Name" name="l_name">
+    <input type="text" placeholder="Weight" name="weight">
+    <input type="text" placeholder="Height" name="height">
+    <input type="text" placeholder="Expected Calories In/Day" name="calories">
+    <input type="submit" name="add_user" value = "Add it!">
+  </form>
+  <table>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Weight</th>
+      <th>Height</th>
+      <th>Expected Calories In</th>
+      <th>Edit</th>
+    </tr>
+    {% for user in users %}
+    </tr>
+      <th>
+        {{ user.first_name }}
+      </th>
+      <th>
+        {{ user.last_name }} 
+      </th>
+      <th>
+        {{ user.weight }}
+      </th>
+      <th>
+        {{ user.height }}
+      </th>
+      <th>
+        {{ user.expected_calories }}
+      </th>
+      <th>
+        <a href="/delete_user/{{user.id}}"> Delete </a>
+      </th>
+    {% endfor %}
+  </table>
+</div>
+
+<div id="form" class="w3-container page w3-animate-opacity" style="display:none">
+  <h3 class = "heading"> Add your weekly diet plan: </h3>
+  <form METHOD="POST">
+    <input type="text" placeholder="Day" name="day">
+    <input type="text" placeholder="Morning" name="morning">
+    <input type="text" placeholder="Noon" name="noon">
+    <input type="text" placeholder="Evening" name="evening">
+    <input type="text" placeholder="Calories In" name="calories">
+    <input type="submit" name="add" value = "Add it!">
+  </form>
   <table>
     <tr>
       <th>Day</th>
       <th>Morning</th>
       <th>Noon</th>
       <th>Evening</th>
-      <th>Calories</th>
+      <th>Calories In</th>
+      <th>Edit</th>
     </tr>
-    <tr>
-      <td>Monday</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Tuesday</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Wednesday</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Thursday</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Friday</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Saturday</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Sunday</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>   
+    {% for diet in diets %}
+      <tr>
+      <td>
+        {{ diet.day }}
+      </td>
+      <td>
+        {{ diet.morning_meal }} 
+        <form method="POST" actoin="\" style="display:inline">
+                <input type= "hidden" value="{{diet.morning_meal}}" name="old_mor">
+                <input type="text" value="{{diet.morning_meal}}" name="new_mor">
+                <input type="submit" name = "morning_update"  value="Update">
+        </form> 
+      </td>
+      <td>
+        {{ diet.noon_meal }}
+        <form method="POST" actoin="\" style="display:inline">
+                <input type= "hidden" value="{{diet.noon_meal}}" name="old_noon">
+                <input type="text" value="{{diet.noon_meal}}" name="new_noon">
+                <input type="submit" name = "noon_update"  value="Update">
+        </form>
+      </td>
+      <td>
+        {{ diet.evening_meal }}
+        <form method="POST" actoin="\" style="display:inline">
+                <input type= "hidden" value="{{diet.evening_meal}}" name="old_eve">
+                <input type="text" value="{{diet.evening_meal}}" name="new_eve">
+                <input type="submit" name = "evening_update"  value="Update">
+        </form>
+      </td>
+      <td>
+        {{ diet.claories_in }}
+        <form method="POST" actoin="\" style="display:inline">
+                <input type= "hidden" value="{{diet.claories_in}}" name="old_cal">
+                <input type="text" value="{{diet.claories_in}}" name="new_cal">
+                <input type="submit" name = "calories_update"  value="Update">
+        </form>
+      </td>
+      <td>
+        <a href="/delete/{{diet.id}}"> Delete </a>
+        </br>
+        <a href="/update/{{diet.id}}"> Update </a>
+      </td>
+      </tr>
+    {% endfor %}
   </table>
 </div>
 
