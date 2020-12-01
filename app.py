@@ -1,10 +1,15 @@
 import os
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
+from forms import *
+from flask_bootstrap import Bootstrap
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 application = app
+bootstrap = Bootstrap(app)
 
 # basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SECRET_KEY'] = 'hard to guess string'
@@ -40,6 +45,22 @@ class DietPlan(db.Model):
 	# user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	# user = db.relationship('User', backref='diet')
 
+class LogData(db.Model):
+	__tablename__ = 'logdata'
+	id = db.Column(db.Integer, primary_key=True)
+	username = db.Column(db.String(50), unique=True, index=True, nullable=False)
+	password = db.Column(db.String(128))
+
+	@property
+	def password(self):
+		raise AttributeError('password is not a readable attribute')
+
+	@password.setter
+	def password(self, password):
+		self.password_hash = generate_password_hash(password)
+
+	def verify_password(self, password):
+		return check_password_hash(self.password_hash, password)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -148,6 +169,31 @@ def delete_user(id):
         return redirect('/')
     except:
         return "There was an error deleting the user!"
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	form = SignupForm()
+	if form.validate_on_submit():
+		new_user = LogData(username=form.username.data, password=form.password.data)
+		try:
+			db.session.add(new_user)
+			db.commit()
+			return redirect('/login')
+		except:
+			return "There was an error registrating the user!"
+	return render_template('signup.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	form = LoginForm()
+	if form.validate_on_submit():
+		user = LogData.query.filter_by(username=form.username.data).first()
+		if user is not None and user.verify_password(form.passowrd.data):
+			return redirect('/')
+		flash('Invalid username or password.')
+		flash(form.username.data)
+		return redirect('/login')
+	return render_template('login.html', form=form)
 
 if __name__ == '__main__':
 	manager.run()

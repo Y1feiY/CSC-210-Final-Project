@@ -24,6 +24,7 @@ table{
 </header>
 <body>
 
+{% block page_content %}{% endblock %}
 <div class="w3-sidebar w3-bar-block w3-teal w3-card" style="width:130px">
   <h5 class="w3-bar-item">Daily Diet</h5>
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'info')">Personal Information</button>
@@ -169,6 +170,11 @@ table{
     </form>
 </div> -->
 </div>
+
+
+
+
+
 <script>
 function openLink(evt, animName) {
   var i, x, tablinks;

@@ -1,81 +1,22 @@
-<!DOCTYPE html>
-<html>
-<title>Diet Manager</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<style>
-img {
-  max-width: 100%;
-  height: auto;
-}
-.submit_form {
-  /* The image used */
-  background-image: url("login.jpg");
+{% extends "main.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-  /* Control the height of the image */
-  min-height: 900px;
+{% block title %}Flasky - Login{% endblock %}
 
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: center;
-}
-.container {
-  position: absolute;
-  left: 40%;
-  right: 40%;
-  top: 45%;
-  margin: 20px;
-  padding: 16px;
-  background-color: white;
-}
-/* Full-width input fields */
-  input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-/* Set a style for the submit button */
-.btn {
-  background-color: green;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-</style>
-</head>
-<body>
-
-<div class="w3-container w3-teal">
-  <h1>Welcome to Personal Diet Manager</h1>
+{% block page_content %}
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for msg in messages %}
+				<p>{{msg}}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+<div class="page-header">
+    <h1>Login</h1>
 </div>
-
-<div class = "submit_form">
-<form action="" class = "container">
-  <label for="u_id">User ID: </label><br>
-  <input type="text" id="u_id" name="u_id" value=""><br>
-  <label for="u_key">Password:</label><br>
-  <input type="password" id="u_key" name="u_key" value=""><br><br>
-  <input type="submit" value="Submit" class = "btn">
-</form> 
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+    <br>
+    <p>New user? <a href="{{ url_for('signup') }}">Click here to register</a>.</p>
 </div>
-<div class="w3-container w3-teal">
-  <p>Leave your feedback</p>
-</div>
-
-</body>
-</html> 
-
+{% endblock %}
