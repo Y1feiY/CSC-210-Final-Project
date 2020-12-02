@@ -15,7 +15,12 @@
     <h1>Login</h1>
 </div>
 <div class="col-md-4">
-    {{ wtf.quick_form(form) }}
+    <form class="login-form" method="POST" action="">
+    	{{ wtf.form_field(form.username) }}
+    	{{ wtf.form_field(form.password) }}
+    	{{ form.csrf_token }}
+    	<input type="submit" name="login_user" value = "Login!">
+    </form>
     <br>
     <p>New user? <a href="{{ url_for('signup') }}">Click here to register</a>.</p>
 </div>

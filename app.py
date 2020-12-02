@@ -22,13 +22,10 @@ manager = Manager(app)
 
 
 class User(db.Model):
-	__tablename__ = 'user'
+	#__tablename__ = 'user'
 	id = db.Column(db.Integer, primary_key=True)
-	first_name = db.Column(db.String(50), nullable=False)
-	last_name = db.Column(db.String(50), nullable=False)
-	weight = db.Column(db.String(50), nullable=False)
-	height = db.Column(db.String(50), nullable=False)
-	expected_calories = db.Column(db.String(50), nullable=False)
+	username = db.Column(db.String(50), unique=True, index=True, nullable=False)
+	password = db.Column(db.String(80), nullable=False)
 
 	# diet_plan = db.relationship('DietPlan', backref='user')
 
@@ -45,22 +42,10 @@ class DietPlan(db.Model):
 	# user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	# user = db.relationship('User', backref='diet')
 
-class LogData(db.Model):
-	__tablename__ = 'logdata'
-	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(50), unique=True, index=True, nullable=False)
-	password = db.Column(db.String(128))
-
-	@property
-	def password(self):
-		raise AttributeError('password is not a readable attribute')
-
-	@password.setter
-	def password(self, password):
-		self.password_hash = generate_password_hash(password)
-
-	def verify_password(self, password):
-		return check_password_hash(self.password_hash, password)
+# class LogData(db.Model):
+# 	id = db.Column(db.Integer, primary_key=True)
+# 	username = db.Column(db.String(50), unique=True, index=True, nullable=False)
+# 	password = db.Column(db.String(80), nullable=False)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -79,20 +64,20 @@ def index():
 		except:
 			return "There was an error adding the plan!"
 
-	elif request.method == "POST" and request.form.get("add_user"):
-		f_name = request.form['f_name']
-		l_name = request.form['l_name']
-		weight = request.form['weight']
-		height = request.form['height']
-		exp_calories = request.form['calories']
-		new_user = User(first_name=f_name, last_name=l_name, weight=weight, 
-			height=height, expected_calories=exp_calories)
-		try:
-			db.session.add(new_user)
-			db.session.commit()
-			return redirect('/')
-		except:
-			return "There was an error adding the user!"
+	# elif request.method == "POST" and request.form.get("add_user"):
+	# 	f_name = request.form['f_name']
+	# 	l_name = request.form['l_name']
+	# 	weight = request.form['weight']
+	# 	height = request.form['height']
+	# 	exp_calories = request.form['calories']
+	# 	new_user = User(first_name=f_name, last_name=l_name, weight=weight, 
+	# 		height=height, expected_calories=exp_calories)
+	# 	try:
+	# 		db.session.add(new_user)
+	# 		db.session.commit()
+	# 		return redirect('/')
+	# 	except:
+	# 		return "There was an error adding the user!"
 
 	elif request.method == 'POST' and request.form.get("morning_update"):
 		new_mor = request.form.get("new_mor")
@@ -128,8 +113,8 @@ def index():
 
 	else:
 		diets = DietPlan.query.all()
-		users = User.query.all()
-		return render_template('main.html', diets=diets, users=users)
+		# users = User.query.all()
+		return render_template('main.html', diets=diets)
 
 
 @app.route('/update/<int:id>', methods=['POST', 'GET'])
@@ -160,21 +145,21 @@ def delete(id):
     except:
         return "There was an error deleting the plan!"
 
-@app.route('/delete_user/<int:id>')
-def delete_user(id):
-    plan_to_delete = User.query.get_or_404(id)
-    try:
-        db.session.delete(plan_to_delete)
-        db.session.commit()
-        return redirect('/')
-    except:
-        return "There was an error deleting the user!"
+# @app.route('/delete_user/<int:id>')
+# def delete_user(id):
+#     plan_to_delete = User.query.get_or_404(id)
+#     try:
+#         db.session.delete(plan_to_delete)
+#         db.session.commit()
+#         return redirect('/')
+#     except:
+#         return "There was an error deleting the user!"
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
 	form = SignupForm()
 	if form.validate_on_submit():
-		new_user = LogData(username=form.username.data, password=form.password.data)
+		new_user = User(username=form.username.data, password=form.password.data)
 		try:
 			db.session.add(new_user)
 			db.commit()
@@ -187,12 +172,9 @@ def signup():
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():
-		user = LogData.query.filter_by(username=form.username.data).first()
+		user = User.query.filter_by(username=form.username.data).first()
 		if user is not None and user.verify_password(form.passowrd.data):
 			return redirect('/')
-		flash('Invalid username or password.')
-		flash(form.username.data)
-		return redirect('/login')
 	return render_template('login.html', form=form)
 
 if __name__ == '__main__':
