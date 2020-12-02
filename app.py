@@ -46,7 +46,8 @@ class User(UserMixin, db.Model):
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
-	#diet_plan = db.relationship('DietPlan', backref='user')
+	#plan = db.relationship('DietPlan', backref='user')
+	#infos = db.relationship('Info', backref='user')
 
 
 class DietPlan(db.Model):
@@ -69,6 +70,8 @@ class Info(db.Model):
 	weight = db.Column(db.String(50), nullable=False)
 	height = db.Column(db.String(50), nullable=False)
 	expected_calories = db.Column(db.String(50), nullable=False)
+
+	#user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 @app.route('/', methods=['POST', 'GET'])
 @login_required
@@ -138,8 +141,8 @@ def index():
 			return redirect('/')
 
 		else:
-			diets = DietPlan.query.all()
-			infos = Info.query.all()
+			diets = DietPlan.query.filter_by(id=current_user.id)
+			infos = Info.query.filter_by(id=current_user.id)
 			return render_template('main.html', diets=diets, infos=infos)
 	else:
 		return redirect('/login')
