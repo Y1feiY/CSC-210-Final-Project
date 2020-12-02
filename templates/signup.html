@@ -18,6 +18,7 @@
 	<form class="signup-form" method="POST" action="">
     	{{ wtf.form_field(form.username) }}
     	{{ wtf.form_field(form.password) }}
+    	{{ wtf.form_field(form.password1) }}
     	{{ form.csrf_token }}
     	<input type="submit" name="signup_user" value = "Sign up!">
 	</form>

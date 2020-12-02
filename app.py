@@ -46,8 +46,8 @@ class User(UserMixin, db.Model):
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
-	#plan = db.relationship('DietPlan', backref='user')
-	#infos = db.relationship('Info', backref='user')
+	plan = db.relationship('DietPlan', backref='user')
+	infos = db.relationship('Info', backref='user')
 
 
 class DietPlan(db.Model):
@@ -59,7 +59,7 @@ class DietPlan(db.Model):
 	evening_meal = db.Column(db.String(50), nullable=False)
 	claories_in = db.Column(db.String(50))
 
-	#user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	#user = db.relationship('User', backref='diet')
 
 class Info(db.Model):
@@ -71,7 +71,7 @@ class Info(db.Model):
 	height = db.Column(db.String(50), nullable=False)
 	expected_calories = db.Column(db.String(50), nullable=False)
 
-	#user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 @app.route('/', methods=['POST', 'GET'])
 @login_required
@@ -85,7 +85,7 @@ def index():
 			evening = request.form['evening']
 			calories = request.form['calories']
 			day_plan = DietPlan(day=day, morning_meal=morning, noon_meal=noon, 
-				evening_meal=evening, claories_in=calories)
+				evening_meal=evening, claories_in=calories, user=current_user)
 			try:
 				db.session.add(day_plan)
 				db.session.commit()
@@ -100,7 +100,7 @@ def index():
 			height = request.form['height']
 			exp_calories = request.form['calories']
 			new_info = Info(first_name=f_name, last_name=l_name, weight=weight, 
-				height=height, expected_calories=exp_calories)
+				height=height, expected_calories=exp_calories, user=current_user)
 			try:
 				db.session.add(new_info)
 				db.session.commit()
@@ -141,8 +141,8 @@ def index():
 			return redirect('/')
 
 		else:
-			diets = DietPlan.query.filter_by(id=current_user.id)
-			infos = Info.query.filter_by(id=current_user.id)
+			diets = DietPlan.query.filter_by(user=current_user)
+			infos = Info.query.filter_by(user=current_user)
 			return render_template('main.html', diets=diets, infos=infos)
 	else:
 		return redirect('/login')
