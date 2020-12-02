@@ -4,6 +4,13 @@
 {% block title %}Sign up{% endblock %}
 
 {% block page_content %}
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for msg in messages %}
+				<p>{{msg}}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
 <div class="page-header">
     <h1>Register</h1>
 </div>
