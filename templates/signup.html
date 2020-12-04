@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Sign up{% endblock %}
@@ -11,16 +11,31 @@
 			{% endfor %}
 		{% endif %}
 	{% endwith %}
-<div class="page-header">
-    <h1>Register</h1>
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+<style>
+.submit_form {
+    background-image: url("{{ url_for('static', filename='images/signup.jpg')}}");
+    min-height: 900px;
+    background-position: center;
+    position: center;
+}
+</style>
+</head>
+<div class="w3-container w3-teal">
+  <h1>Join us today</h1>
 </div>
-<div class="container">
-	<form class="signup-form" method="POST" action="">
+<div class="submit_form">
+	<form class="container" method="POST" action="">
     	{{ wtf.form_field(form.username) }}
     	{{ wtf.form_field(form.password) }}
     	{{ wtf.form_field(form.password1) }}
     	{{ form.csrf_token }}
-    	<input type="submit" name="signup_user" value = "Sign up!">
+    	<input type="submit" name="signup_user" value = "Sign up" class="btn">
 	</form>
+</div>
+<div class="w3-container w3-teal">
+  <p>CSC210-Final-Project-Fall 2020 University of Rochester</p>
 </div>
 {% endblock %}

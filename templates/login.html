@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Flasky - Login{% endblock %}
@@ -11,17 +11,31 @@
 			{% endfor %}
 		{% endif %}
 	{% endwith %}
-<div class="page-header">
-    <h1>Login</h1>
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+<style>
+.submit_form {
+    background-image: url("{{ url_for('static', filename='images/login.jpg')}}");
+    min-height: 900px;
+    background-position: center;
+    position: center;
+}
+</style>
+</head>
+<div class="w3-container w3-teal">
+  <h1>Welcome to Personal Diet Manager</h1>
 </div>
-<div class="col-md-4">
-    <form class="login-form" method="POST" action="">
+<div class="submit_form">
+    <form class="container" method="POST" action="">
     	{{ wtf.form_field(form.username) }}
     	{{ wtf.form_field(form.password) }}
     	{{ form.csrf_token }}
-    	<input type="submit" name="login_user" value = "Login!">
+    	<input type="submit" name="login_user" value = "Submit" class="btn">
+        <p>New user? <a href="{{ url_for('signup') }}">Click here to register</a>.</p>
     </form>
-    <br>
-    <p>New user? <a href="{{ url_for('signup') }}">Click here to register</a>.</p>
+</div>
+<div class="w3-container w3-teal">
+  <p>CSC210-Final-Project-Fall 2020 University of Rochester</p>
 </div>
 {% endblock %}

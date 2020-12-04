@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block page_content %}
 <!DOCTYPE html>
 <html>
 <header>
@@ -23,8 +25,6 @@ table{
 </style>
 </header>
 <body>
-
-{% block page_content %}{% endblock %}
 <div class="w3-sidebar w3-bar-block w3-teal w3-card" style="width:130px">
   <h5 class="w3-bar-item">Daily Diet</h5>
 <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'info')">Personal Information</button> 
@@ -148,38 +148,7 @@ table{
     {% endfor %}
   </table>
 </div>
-
-<!-- <div id="add" class="w3-container page w3-animate-opacity" style="display:none">
-    <form class="w3-container">
-      <p>
-      <input class="w3-input" type="text">
-      <label>Enter the food you want to add</label></p>
-    </form>
 </div>
-
-<div id="del" class="w3-container page w3-animate-opacity" style="display:none">
-    <form class="w3-container">
-      <p>
-      <input class="w3-input" type="text">
-      <label>Enter the food you want to delete</label></p>
-    </form>
-</div>
-
-<div id="update" class="w3-container page w3-animate-opacity" style="display:none">
-    <form class="w3-container">
-      <p>
-      <input class="w3-input" type="text">
-      <label>Enter the food id you want to update</label></p>
-      <input class="w3-input" type="text">
-      <label>Enter the updated food</label></p>
-    </form>
-</div> -->
-</div>
-
-
-
-
-
 <script>
 function openLink(evt, animName) {
   var i, x, tablinks;
@@ -195,7 +164,7 @@ function openLink(evt, animName) {
   evt.currentTarget.className += " w3-green";
 }
 </script>
-
 </body>
 </html>
+{% endblock %}
 
