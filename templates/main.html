@@ -31,8 +31,8 @@ table{
 }
 .container {
   position: absolute;
-  left: 35%;
-  right: 35%;
+  left: 30%;
+  right: 30%;
   top: 45%;
   margin: 20px;
   padding: 16px;
@@ -57,7 +57,7 @@ table{
   <div id="default" class = "submit_form" style="display: block">
     <div class="submit_form">
       <form  class =  " w3-teal container" METHOD="POST">
-      <p style="font-size:20px; position: center">Welcome to Personal Diet Manager</p><br>
+      <p style="font-size:35px; position: center">Welcome to Personal Diet Manager</p><br>
     </form>
   </div>
 </div>
@@ -74,37 +74,19 @@ table{
       <input type="text" placeholder="Expected Calories In/Day" name="calories">
       <input type="submit" name="add_info" value = "Add it!">
     </form>
-    <table>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Weight</th>
-        <th>Height</th>
-        <th>Expected Calories In</th>
-        <th>Edit</th>
-      </tr>
-      {% for info in infos %}
-      </tr>
-        <th>
-          {{ info.first_name }}
-        </th>
-        <th>
-          {{ info.last_name }} 
-        </th>
-        <th>
-          {{ info.weight }}
-        </th>
-        <th>
-          {{ info.height }}
-        </th>
-        <th>
-          {{ info.expected_calories }}
-        </th>
-        <th>
-          <a href="/delete_info/{{info.id}}"> Delete </a>
-        </th>
-      {% endfor %}
-    </table>
+    
+    {% for info in infos %}
+    {% if info.first_name %}
+    <ul>
+      <li>First Name: {{ info.first_name }}</li>
+      <li>Last Name: {{ info.last_name }} </li>
+      <li>Weight: {{ info.weight }}</li>
+      <li>Height: {{ info.height }}</li>
+      <li>Expected Calories In:  {{ info.expected_calories }}</li>
+      <a href="/delete_info/{{info.id}}"> Delete </a>
+    </ul>
+    {% endif %}
+    {% endfor %}
   </div>
 
   <div id="form" class="w3-container page w3-animate-opacity" style="display:none">
