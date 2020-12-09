@@ -6,6 +6,7 @@
 <title>Daily Diet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <style>
 tr:nth-child(even) {
   background-color: #dddddd;
@@ -28,7 +29,15 @@ table{
     background-position: center;
     position: center;
 }
-
+.container {
+  position: absolute;
+  left: 35%;
+  right: 35%;
+  top: 45%;
+  margin: 20px;
+  padding: 16px;
+  background-color: white;
+}
 </style>
 </header>
 <body>
@@ -46,7 +55,12 @@ table{
 <div style = "margin-left:130px">
 
   <div id="default" class = "submit_form" style="display: block">
+    <div class="submit_form">
+      <form  class =  " w3-teal container" METHOD="POST">
+      <p style="font-size:20px; position: center">Welcome to Personal Diet Manager</p><br>
+    </form>
   </div>
+</div>
   <div id="info" class="w3-container page w3-animate-opacity" style="display:none">
     <div class="w3-container w3-teal">
       <h1>Welcome to Personal Diet Manager</h1>

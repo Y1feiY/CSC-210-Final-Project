@@ -4,13 +4,7 @@
 {% block title %}Sign up{% endblock %}
 
 {% block page_content %}
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			{% for msg in messages %}
-				<p>{{msg}}</p>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}
+	
 <head>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
@@ -32,6 +26,13 @@
     	{{ wtf.form_field(form.password) }}
     	{{ wtf.form_field(form.password1) }}
     	{{ form.csrf_token }}
+         {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p style="color:red;">{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
     	<input type="submit" name="signup_user" value = "Sign up" class="btn">
 	</form>
 </div>
