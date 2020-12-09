@@ -46,8 +46,8 @@ table{
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'info')">Personal Information</button> 
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'form')">Daily Diet Plan</button>
   {% if current_user.is_authenticated %}
-  <button class="w3-bar-item w3-button tablink" onclick="location.href='/logout'" type= "button">Log out</button>
-  <button class="w3-bar-item w3-button tablink" onclick="location.href = '/changepassword/{{current_user.id}}'" type = "button">Change password</button>
+  <button class="w3-bar-item w3-button tablink" onclick="location.href = '/changepassword/{{current_user.id}}'" type = "button">Change Password</button>
+  <button class="w3-bar-item w3-button tablink" onclick="location.href='/logout'" type= "button">Log Out</button>
   {% endif %} 
     
 </div>
@@ -57,13 +57,13 @@ table{
   <div id="default" class = "submit_form" style="display: block">
     <div class="submit_form">
       <form  class =  " w3-teal container" METHOD="POST">
-      <p style="font-size:35px; position: center">Welcome to Personal Diet Manager</p><br>
+      <p style="font-size:30px; position:center">Welcome to Your Personal Diet Manager!</p><br>
     </form>
   </div>
 </div>
   <div id="info" class="w3-container page w3-animate-opacity" style="display:none">
     <div class="w3-container w3-teal">
-      <h1>Welcome to Personal Diet Manager</h1>
+      <h1>Enter Your Personal Information:</h1>
     </div>
     <h3 class = "heading"> Personal Information: </h3>
     <form METHOD="POST">
@@ -91,7 +91,7 @@ table{
 
   <div id="form" class="w3-container page w3-animate-opacity" style="display:none">
     <div class="w3-container w3-teal">
-      <h1>Welcome to Personal Diet Manager</h1>
+      <h1>Make Your Diet Plan:</h1>
     </div>
     <h3 class = "heading"> Add your weekly diet plan: </h3>
     <form METHOD="POST">
